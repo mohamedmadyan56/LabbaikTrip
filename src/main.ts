@@ -8,6 +8,7 @@ import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './utils/logger.js';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter.js';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
+import { buildCorsOptions } from './config/cors.options.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -24,33 +25,7 @@ async function bootstrap() {
     }),
   );
 
-  const allowed: string[] = (
-    config.get<string>('CORS_ORIGIN') || 'http://localhost:3000'
-  )
-    .split(',')
-    .map((s: string) => s.trim());
-
-  app.enableCors({
-    origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-      if (!origin || config.get('NODE_ENV') === 'development') {
-        return cb(null, true);
-      }
-
-      allowed.includes(origin)
-        ? cb(null, true)
-        : cb(new Error(`CORS: ${origin} not allowed`));
-    },
-
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'X-Requested-With',
-    ],
-    exposedHeaders: ['Content-Disposition'],
-    credentials: true,
-    maxAge: 86400,
-  });
+  app.enableCors(buildCorsOptions(config));
 
   app.setGlobalPrefix('api');
 
