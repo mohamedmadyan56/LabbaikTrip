@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module.js';
 import { PilgrimsModule } from './modules/pilgrims/pilgrims.module.js';
 import { TripsModule } from './modules/trips/trips.module.js';
 import { HealthModule } from './modules/health/health.module.js';
+import { GenerateTokensProvider } from './auth/providers/generate-tokens.provider.js';
 
 
 
@@ -50,7 +51,7 @@ import { HealthModule } from './modules/health/health.module.js';
     // TemplatesModule, SettingsModule, ActivitiesModule, DashboardModule, FilesModule,
     HealthModule,
   ],
-  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }, GenerateTokensProvider],
 })
 
 export class AppModule {}
