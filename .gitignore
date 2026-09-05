@@ -11,8 +11,6 @@ build/
 tsconfig.build.tsbuildinfo
 
 # Env
-.env
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -31,7 +29,6 @@ uploads/
 coverage/
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -47,3 +44,4 @@ Thumbs.db
 # Misc
 .cache/
 tmp/
+config.bat
